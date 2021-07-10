@@ -4,7 +4,9 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
 # define a Gaussain NB classifier
-clf = GaussianNB()
+clf = None
+
+
 # define the class encodings and reverse encodings
 classes = {0: "Iris Setosa", 1: "Iris Versicolour", 2: "Iris Virginica"}
 r_classes = {y: x for x, y in classes.items()}
@@ -13,6 +15,7 @@ r_classes = {y: x for x, y in classes.items()}
 
 
 def load_model():
+    global clf
     # load the dataset from the official sklearn datasets
     X, y = datasets.load_iris(return_X_y=True)
 
@@ -28,8 +31,9 @@ def load_model():
     acc_gnb = accuracy_score(y_test, gnb.predict(X_test))
 
     clf = rf if acc_rf > acc_gnb else gnb
+
     best_acc = acc_rf if acc_rf > acc_gnb else acc_gnb
-    print(f"{clf} trained with best accuracy: {round(best_acc, 3)}")
+    print(f"{clf} trained with best accuracy:{best_acc}")
 
 
 # function to predict the flower using the model
